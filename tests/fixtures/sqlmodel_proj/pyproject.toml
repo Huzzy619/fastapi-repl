@@ -1,0 +1,9 @@
+[project]
+name = "sqlmodel-fixture"
+version = "0.0.0"
+
+[tool.fastapi]
+entrypoint = "sqlmodel_app.main:app"
+
+[tool.fastapi-repl]
+hooks = { startup = ["sqlmodel_app.main:create_db"] }

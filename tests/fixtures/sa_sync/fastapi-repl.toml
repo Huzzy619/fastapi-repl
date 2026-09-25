@@ -1,0 +1,11 @@
+# Standalone config file: no pyproject.toml table needed.
+models = ["sa_sync_app.models"]
+dont-load = ["AuditLog"]
+imports = ["import json", "from datetime import datetime as dt"]
+
+[objects]
+greeting = "sa_sync_app.helpers:make_greeting()"
+
+[hooks]
+namespace = "sa_sync_app.helpers:extra_names"
+startup = "sa_sync_app.models:create_tables"

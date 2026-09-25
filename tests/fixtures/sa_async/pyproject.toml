@@ -1,0 +1,16 @@
+[project]
+name = "sa-async-fixture"
+version = "0.0.0"
+
+[tool.fastapi-repl]
+app = "sa_async_app.main:app"
+models = ["sa_async_app.models"]
+base = "sa_async_app.db:Base"
+imports = ["from sa_async_app.settings import settings"]
+
+[tool.fastapi-repl.sqlalchemy]
+engine = "sa_async_app.db:engine"
+session_factory = "sa_async_app.db:SessionLocal"
+
+[tool.fastapi-repl.hooks]
+startup = ["sa_async_app.db:create_tables"]

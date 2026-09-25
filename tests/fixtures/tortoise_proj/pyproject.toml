@@ -1,0 +1,11 @@
+[project]
+name = "tortoise-fixture"
+version = "0.0.0"
+
+[tool.fastapi-repl]
+models = ["tortoise_app.models"]
+
+[tool.fastapi-repl.tortoise]
+db_url = "sqlite://:memory:"
+modules = { models = ["tortoise_app.models"] }
+generate_schemas = true

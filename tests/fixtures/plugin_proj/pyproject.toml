@@ -1,0 +1,10 @@
+[project]
+name = "plugin-fixture"
+version = "0.0.0"
+
+[tool.fastapi-repl]
+adapters = ["plugin_app.adapter:InMemoryAdapter"]
+print_sql = true
+
+[tool.fastapi-repl.plugins.inmemory]
+greeting = "hello from plugin options"
