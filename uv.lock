@@ -839,6 +839,7 @@ dev = [
     { name = "sqlalchemy", extra = ["asyncio"] },
     { name = "sqlmodel" },
     { name = "tortoise-orm" },
+    { name = "tzdata" },
 ]
 docs = [
     { name = "mkdocs" },
@@ -886,6 +887,7 @@ dev = [
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0" },
     { name = "sqlmodel", specifier = ">=0.0.14" },
     { name = "tortoise-orm", specifier = ">=0.21" },
+    { name = "tzdata", specifier = ">=2024.1" },
 ]
 docs = [
     { name = "mkdocs", specifier = ">=1.6,<2" },

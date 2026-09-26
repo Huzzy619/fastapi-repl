@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -208,7 +209,8 @@ def test_jupyter_launcher(project, invoke, monkeypatch, flag: str) -> None:
     calls = []
 
     def fake_call(cmd, cwd, env):
-        spec_dir = Path(env["JUPYTER_PATH"].split(":")[0]) / "kernels" / "fastapi-repl"
+        # os.pathsep: ":" on Unix, ";" on Windows (":" would split "C:\\Users\\...").
+        spec_dir = Path(env["JUPYTER_PATH"].split(os.pathsep)[0]) / "kernels" / "fastapi-repl"
         calls.append((cmd, json.loads((spec_dir / "kernel.json").read_text())))
         return 0
 

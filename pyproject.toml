@@ -89,6 +89,7 @@ dev = [
   "aiosqlite>=0.20",
   "sqlmodel>=0.0.14",
   "tortoise-orm>=0.21",
+  "tzdata>=2024.1",  # Windows has no system zoneinfo; Tortoise DatetimeField needs UTC
   "fastapi>=0.110",
 ]
 docs = [
