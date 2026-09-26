@@ -34,5 +34,5 @@ First release.
 - History files are created readable only by the current user.
 - Command-line flags now apply to Jupyter kernels started with `--notebook` / `--lab`.
 
-[Unreleased]: https://github.com/huzzyk/fastapi-repl/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/huzzyk/fastapi-repl/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Huzzy619/fastapi-repl/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Huzzy619/fastapi-repl/releases/tag/v0.1.0

@@ -7,7 +7,7 @@ Thanks for helping. Bug reports, docs fixes and new adapters are all welcome.
 The project uses [uv](https://docs.astral.sh/uv/).
 
 ```console
-git clone https://github.com/huzzyk/fastapi-repl
+git clone https://github.com/Huzzy619/fastapi-repl
 cd fastapi-repl
 uv sync
 ```

@@ -68,5 +68,5 @@ close any clients you create in `objects` factories: objects with `close()` or
 ## Something else
 
 Run with `--strict` to turn warnings into errors with full tracebacks, and please
-[open an issue](https://github.com/huzzyk/fastapi-repl/issues) with the output of
+[open an issue](https://github.com/Huzzy619/fastapi-repl/issues) with the output of
 `fastapi-repl doctor`.

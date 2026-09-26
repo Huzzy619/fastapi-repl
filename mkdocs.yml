@@ -1,6 +1,6 @@
 site_name: fastapi-repl
 site_description: Django-style shell_plus for FastAPI and friends.
-repo_url: https://github.com/huzzyk/fastapi-repl
+repo_url: https://github.com/Huzzy619/fastapi-repl
 repo_name: huzzyk/fastapi-repl
 edit_uri: edit/main/docs/
 strict: true

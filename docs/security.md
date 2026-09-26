@@ -97,5 +97,5 @@ it does nothing until someone runs it, and whoever runs it already has shell acc
 ## Reporting a vulnerability
 
 Please report security problems privately through
-[GitHub security advisories](https://github.com/huzzyk/fastapi-repl/security/advisories/new)
+[GitHub security advisories](https://github.com/Huzzy619/fastapi-repl/security/advisories/new)
 rather than a public issue.
