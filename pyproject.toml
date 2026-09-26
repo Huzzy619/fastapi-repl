@@ -70,7 +70,7 @@ tortoise = "fastapi_repl.adapters.tortoise:TortoiseAdapter"
 
 [project.urls]
 Homepage = "https://github.com/Huzzy619/fastapi-repl"
-Documentation = "https://huzzyk.github.io/fastapi-repl"
+Documentation = "https://huzzy619.github.io/fastapi-repl"
 Repository = "https://github.com/Huzzy619/fastapi-repl"
 Issues = "https://github.com/Huzzy619/fastapi-repl/issues"
 Changelog = "https://github.com/Huzzy619/fastapi-repl/blob/main/CHANGELOG.md"

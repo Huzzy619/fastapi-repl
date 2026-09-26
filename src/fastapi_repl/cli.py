@@ -71,7 +71,7 @@ app = typer.Typer(
         "database session and imports preloaded, and top-level [bold]await[/bold].\n\n"
         "Running [bold]fastapi-repl[/bold] with no command starts the shell."
     ),
-    epilog="Docs: https://huzzyk.github.io/fastapi-repl",
+    epilog="Docs: https://huzzy619.github.io/fastapi-repl",
     rich_markup_mode="rich",
     context_settings={"help_option_names": ["-h", "--help"]},
     pretty_exceptions_enable=False,
@@ -109,12 +109,16 @@ ConfigOpt = Annotated[
 ]
 EnvFileOpt = Annotated[
     str | None,
-    typer.Option("--env-file", help="Load this .env file first.", rich_help_panel=PANEL_PROJECT),
+    typer.Option(
+        "--env-file", help="Load this .env file first.", rich_help_panel=PANEL_PROJECT
+    ),
 ]
 AppOpt = Annotated[
     str | None,
     typer.Option(
-        "--app", help="ASGI app import path, e.g. [i]main:app[/i].", rich_help_panel=PANEL_PROJECT
+        "--app",
+        help="ASGI app import path, e.g. [i]main:app[/i].",
+        rich_help_panel=PANEL_PROJECT,
     ),
 ]
 LifespanOpt = Annotated[
@@ -145,7 +149,10 @@ ModelsOpt = Annotated[
     ),
 ]
 NoModelsOpt = Annotated[
-    bool, typer.Option("--no-models", help="Do not load models.", rich_help_panel=PANEL_LOADING)
+    bool,
+    typer.Option(
+        "--no-models", help="Do not load models.", rich_help_panel=PANEL_LOADING
+    ),
 ]
 DontLoadOpt = Annotated[
     list[str] | None,
@@ -184,13 +191,17 @@ NoHelpersOpt = Annotated[
 StrictOpt = Annotated[
     bool | None,
     typer.Option(
-        "--strict", help="Fail if anything cannot be imported.", rich_help_panel=PANEL_LOADING
+        "--strict",
+        help="Fail if anything cannot be imported.",
+        rich_help_panel=PANEL_LOADING,
     ),
 ]
 PrintSqlOpt = Annotated[
     bool | None,
     typer.Option(
-        "--print-sql", help="Print SQL statements as they run.", rich_help_panel=PANEL_SQL
+        "--print-sql",
+        help="Print SQL statements as they run.",
+        rich_help_panel=PANEL_SQL,
     ),
 ]
 TruncateSqlOpt = Annotated[
@@ -212,11 +223,15 @@ SqlLocationOpt = Annotated[
 ]
 QuietOpt = Annotated[
     bool | None,
-    typer.Option("--quiet", "-q", help="Hide the banner.", rich_help_panel=PANEL_OUTPUT),
+    typer.Option(
+        "--quiet", "-q", help="Hide the banner.", rich_help_panel=PANEL_OUTPUT
+    ),
 ]
 QuietLoadOpt = Annotated[
     bool | None,
-    typer.Option("--quiet-load", help="Hide import errors.", rich_help_panel=PANEL_OUTPUT),
+    typer.Option(
+        "--quiet-load", help="Hide import errors.", rich_help_panel=PANEL_OUTPUT
+    ),
 ]
 VerboseOpt = Annotated[
     bool | None,
@@ -300,7 +315,9 @@ def _flags_as_env(loaded: LoadedConfig) -> dict[str, str]:
         if source != "command line" or "." in key:
             continue
         value = getattr(loaded.config, key)
-        env[f"{ENV_PREFIX}{key.upper()}"] = value if isinstance(value, str) else json.dumps(value)
+        env[f"{ENV_PREFIX}{key.upper()}"] = (
+            value if isinstance(value, str) else json.dumps(value)
+        )
     return env
 
 
@@ -355,7 +372,9 @@ def _start_session(loaded: LoadedConfig, *, show_status: bool) -> ReplSession:
     return session
 
 
-def _resolve_interface(interface: InterfaceChoice | None, shortcuts: dict[str, bool]) -> str | None:
+def _resolve_interface(
+    interface: InterfaceChoice | None, shortcuts: dict[str, bool]
+) -> str | None:
     chosen = [name for name, on in shortcuts.items() if on]
     if len(chosen) > 1 or (chosen and interface is not None):
         flags = ", ".join(f"--{c}" for c in chosen)
@@ -415,24 +434,33 @@ def shell(
         ),
     ] = None,
     ipython: Annotated[
-        bool, typer.Option("--ipython", help="Use IPython.", rich_help_panel=PANEL_INTERFACE)
+        bool,
+        typer.Option("--ipython", help="Use IPython.", rich_help_panel=PANEL_INTERFACE),
     ] = False,
     ptpython: Annotated[
-        bool, typer.Option("--ptpython", help="Use ptpython.", rich_help_panel=PANEL_INTERFACE)
+        bool,
+        typer.Option(
+            "--ptpython", help="Use ptpython.", rich_help_panel=PANEL_INTERFACE
+        ),
     ] = False,
     ptipython: Annotated[
         bool,
         typer.Option(
-            "--ptipython", help="Use ptpython on top of IPython.", rich_help_panel=PANEL_INTERFACE
+            "--ptipython",
+            help="Use ptpython on top of IPython.",
+            rich_help_panel=PANEL_INTERFACE,
         ),
     ] = False,
     bpython: Annotated[
-        bool, typer.Option("--bpython", help="Use bpython.", rich_help_panel=PANEL_INTERFACE)
+        bool,
+        typer.Option("--bpython", help="Use bpython.", rich_help_panel=PANEL_INTERFACE),
     ] = False,
     plain: Annotated[
         bool,
         typer.Option(
-            "--plain", help="Use the plain Python shell.", rich_help_panel=PANEL_INTERFACE
+            "--plain",
+            help="Use the plain Python shell.",
+            rich_help_panel=PANEL_INTERFACE,
         ),
     ] = False,
     notebook: Annotated[
@@ -577,7 +605,9 @@ def shell(
             code = launch_jupyter(
                 "lab" if lab else "notebook",
                 root=loaded.root,
-                config_file=config_file.resolve() if config_file else loaded.config_file,
+                config_file=(
+                    config_file.resolve() if config_file else loaded.config_file
+                ),
                 extra_args=list(config.jupyter_arguments),
                 env_overrides=_flags_as_env(loaded),
             )
@@ -588,9 +618,13 @@ def shell(
         if command is None and not kernel:
             stdin_source = _read_stdin()
             if stdin_source is None:
-                interface_cls = select_interface(config.interface, config.interface_order)
+                interface_cls = select_interface(
+                    config.interface, config.interface_order
+                )
 
-        session = _start_session(loaded, show_status=interface_cls is not None and not kernel)
+        session = _start_session(
+            loaded, show_status=interface_cls is not None and not kernel
+        )
         try:
             namespace = session.namespace.to_dict()
             assert session.runtime is not None
@@ -606,14 +640,19 @@ def shell(
                         filename="<command>" if command is not None else "<stdin>",
                     )
                 except SystemExit as exc:
-                    raise typer.Exit(exc.code if isinstance(exc.code, int) else 1) from None
+                    raise typer.Exit(
+                        exc.code if isinstance(exc.code, int) else 1
+                    ) from None
                 except Exception as exc:
                     _print_user_traceback(exc)
                     raise typer.Exit(1) from None
                 return
 
             context = InterfaceContext(
-                namespace=namespace, runtime=session.runtime, loaded=loaded, console=console
+                namespace=namespace,
+                runtime=session.runtime,
+                loaded=loaded,
+                console=console,
             )
             if kernel:
                 from fastapi_repl.interfaces.jupyter import KernelInterface
@@ -802,7 +841,8 @@ def _config_rows(loaded: LoadedConfig) -> list[tuple[str, Any, str]]:
 def show_config(
     as_json: Annotated[bool, typer.Option("--json", help="Output JSON.")] = False,
     changed: Annotated[
-        bool, typer.Option("--changed", help="Only show settings that are not defaults.")
+        bool,
+        typer.Option("--changed", help="Only show settings that are not defaults."),
     ] = False,
     config_file: ConfigOpt = None,
     env_file: EnvFileOpt = None,
@@ -823,7 +863,9 @@ def show_config(
             sys.stdout.write(json.dumps(payload, indent=2, default=str) + "\n")
             return
         console.print(f"[bold]Project root:[/] {loaded.root}")
-        files = ", ".join(str(f) for f in loaded.files) or "[dim]none (using defaults)[/]"
+        files = (
+            ", ".join(str(f) for f in loaded.files) or "[dim]none (using defaults)[/]"
+        )
         console.print(f"[bold]Config files:[/] {files}")
         table = Table(expand=False)
         table.add_column("Setting", style="cyan", no_wrap=True)
@@ -831,7 +873,9 @@ def show_config(
         table.add_column("Source", style="dim")
         for key, value, source in rows:
             style = "" if source != "default" else "dim"
-            table.add_row(key, escape(json.dumps(value, default=str)), source, style=style)
+            table.add_row(
+                key, escape(json.dumps(value, default=str)), source, style=style
+            )
         console.print(table)
         for warning in loaded.warnings:
             console.print(f"[yellow]warning:[/] {escape(warning)}")
@@ -842,7 +886,8 @@ def init(
     standalone: Annotated[
         bool,
         typer.Option(
-            "--standalone", help=f"Write [i]{CONFIG_FILENAME}[/i] instead of pyproject.toml."
+            "--standalone",
+            help=f"Write [i]{CONFIG_FILENAME}[/i] instead of pyproject.toml.",
         ),
     ] = False,
     dry_run: Annotated[
@@ -903,12 +948,16 @@ def init(
                     "Edit it directly, or use --dry-run to see the suggested config."
                 )
             separator = (
-                "" if current.endswith("\n\n") else ("\n" if current.endswith("\n") else "\n\n")
+                ""
+                if current.endswith("\n\n")
+                else ("\n" if current.endswith("\n") else "\n\n")
             )
             pyproject.write_text(current + separator + text, encoding="utf-8")
         else:
             if target.exists() and not force:
-                raise ReplError(f"{target} already exists. Use --force to overwrite it.")
+                raise ReplError(
+                    f"{target} already exists. Use --force to overwrite it."
+                )
             target.write_text(text, encoding="utf-8")
         console.print(
             f"\n[green]Wrote config to {target}.[/] Start the shell with [bold]fastapi-repl[/bold]."
@@ -926,7 +975,9 @@ def doctor(
 
     problems = 0
     with _errors():
-        console.print(f"[bold]fastapi-repl[/] {__version__} on Python {sys.version.split()[0]}")
+        console.print(
+            f"[bold]fastapi-repl[/] {__version__} on Python {sys.version.split()[0]}"
+        )
         loaded = _load(config_file, env_file=env_file, lifespan=lifespan)
         console.print(f"[bold]Project root:[/] {loaded.root}")
         files = ", ".join(str(f) for f in loaded.files) or "none (using defaults)"
@@ -962,7 +1013,9 @@ def doctor(
                 console.print(f"  [red]✗[/] {name}: {escape(str(exc))}")
                 continue
             if cls.is_installed():
-                console.print(f"  [green]✓[/] {cls.display_name or name} {cls.version() or ''}")
+                console.print(
+                    f"  [green]✓[/] {cls.display_name or name} {cls.version() or ''}"
+                )
             else:
                 console.print(f"  [dim]- {cls.display_name or name}: not installed[/]")
 
@@ -984,16 +1037,22 @@ def doctor(
                     mode = " (read-only)" if loaded.config.read_only else ""
                     console.print(f"  [green]✓[/] database: {escape(database)}{mode}")
             if not session.adapters:
-                console.print("  [yellow]![/] no ORM adapter detected (set 'models' or 'adapters')")
+                console.print(
+                    "  [yellow]![/] no ORM adapter detected (set 'models' or 'adapters')"
+                )
             counts = {g: len(e) for g, e in session.namespace.by_group().items()}
-            summary = ", ".join(f"{n} {g}" for g, n in counts.items() if g != "builtins")
+            summary = ", ".join(
+                f"{n} {g}" for g, n in counts.items() if g != "builtins"
+            )
             console.print(f"  [green]✓[/] loaded {summary or 'nothing'}")
             for message in session.warnings:
                 problems += 1
                 console.print(f"  [yellow]![/] {escape(message)}")
             for failure in session.namespace.failures:
                 problems += 1
-                console.print(f"  [red]✗[/] {escape(failure.what)}: {escape(failure.message)}")
+                console.print(
+                    f"  [red]✗[/] {escape(failure.what)}: {escape(failure.message)}"
+                )
                 err_console.print(
                     "".join(traceback.format_exception(failure.error)).rstrip(),
                     style="dim",
